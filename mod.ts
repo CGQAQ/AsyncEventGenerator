@@ -7,11 +7,11 @@ let tick = 1;
 const interval = setInterval(() => {
     console.log("tick", tick)
     nextValue(tick++)
-}, 1000);
+}, 2000);
 setTimeout(() => {
   clearInterval(interval);
   done();
-}, 5000);
+}, 7000);
 
 for await (const value of eventGenerator) {
   console.log("received tick:", value);

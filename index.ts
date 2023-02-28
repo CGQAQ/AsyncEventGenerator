@@ -60,24 +60,14 @@ export class AsyncEventGenerator<T> implements AsyncIterableIterator<T> {
 
     return newPromise;
   }
-  private __dirty = false;
-  private valueBuffer: T[] = new Proxy<T[]>([], {
-    get: (target, prop) => {
-      if (prop === "push") {
-        this.__dirty = true;
-      }
-      if (prop === "length" && this.__dirty) {
-        this.__dirty = false;
-        this.flush();
-      }
-      return Reflect.get(target, prop);
-    },
-  }); // Proxy to a buffer
+
+  private valueBuffer: T[] = [];
   private promiseBuffer: PromiseCallbacks<T>[] = [];
 
   // core function
   public nextValue(value: T) {
     this.valueBuffer.push(value);
+    this.flush();
   }
 
   public flush() {
@@ -90,6 +80,12 @@ export class AsyncEventGenerator<T> implements AsyncIterableIterator<T> {
   public done() {
     this.isDone = true;
     this.flush();
+
+    if (this.promiseBuffer.length > 0) {
+      this.promiseBuffer.forEach(({ resolve }) => {
+        resolve({ done: true, value: undefined });
+      });
+    }
   }
 
   public flagError(err: Error) {
