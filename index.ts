@@ -67,10 +67,7 @@ export class AsyncEventGenerator<T> implements AsyncIterableIterator<T> {
       }
       if (prop === "length" && this.__dirty) {
         this.__dirty = false;
-        while (this.promiseBuffer.length > 0 && this.valueBuffer.length > 0) {
-          const { resolve } = this.promiseBuffer.shift()!;
-          resolve({ done: false, value: this.valueBuffer.shift()! });
-        }
+        this.flush();
       }
       return Reflect.get(target, prop);
     },
@@ -82,12 +79,16 @@ export class AsyncEventGenerator<T> implements AsyncIterableIterator<T> {
     this.valueBuffer.push(value);
   }
 
+  public flush() {
+    while (this.promiseBuffer.length > 0 && this.valueBuffer.length > 0) {
+      const { resolve } = this.promiseBuffer.shift()!;
+      resolve({ done: false, value: this.valueBuffer.shift()! });
+    }
+  }
+
   public done() {
     this.isDone = true;
-
-    this.promiseBuffer.forEach(({ resolve }) =>
-      resolve({ done: true, value: undefined })
-    );
+    this.flush();
   }
 
   public flagError(err: Error) {
