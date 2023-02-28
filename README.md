@@ -2,7 +2,8 @@
 
 将 `Eventlistener` 形式的 events 转换成 `AsyncGenerator`
 
-Take `Eventlistener` form events, and transform into `AsyncGenerator` which can be then consume by `for await of`
+Take `Eventlistener` form events, and transform into `AsyncGenerator` which can
+be then consume by `for await of`
 
 ```ts
 // 将
@@ -11,8 +12,8 @@ foo.on((event) => console.log(event));
 
 // 变成
 // and transform into
-for await(const event of foo) {
-    console.log(event);
+for await (const event of foo) {
+  console.log(event);
 }
 ```
 

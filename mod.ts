@@ -5,8 +5,8 @@ const { nextValue, done } = eventGenerator;
 
 let tick = 1;
 const interval = setInterval(() => {
-    console.log("tick", tick)
-    nextValue(tick++)
+  console.log("tick", tick);
+  nextValue(tick++);
 }, 2000);
 setTimeout(() => {
   clearInterval(interval);
