@@ -31,6 +31,7 @@ export class AsyncEventGenerator<T> implements AsyncIterableIterator<T> {
   constructor() {
     this.next = this.next.bind(this);
 
+    this.flush = this.flush.bind(this);
     this.nextValue = this.nextValue.bind(this);
     this.done = this.done.bind(this);
     this.flagError = this.flagError.bind(this);
