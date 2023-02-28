@@ -8,9 +8,8 @@ type PromiseCallbacks<T = any> = {
 
 /**
  * A class that transforms events into an async iterable iterator.
- * 
- * 
- * @example 
+ *
+ * @example
  * ```ts
  * const eventGenerator = new AsyncEventGenerator<number>();
  * const { nextValue, done } = eventGenerator;
@@ -19,7 +18,7 @@ type PromiseCallbacks<T = any> = {
  *  clearInterval(interval);
  *  done();
  * }, 5000);
- * 
+ *
  * for await (const value of eventGenerator) {
  *  console.log(value);
  * }
@@ -55,7 +54,7 @@ export class AsyncEventGenerator<T> implements AsyncIterableIterator<T> {
     const newPromise = new Promise<IteratorResult<T, any>>(
       (resolve, reject) => {
         this.promiseBuffer.push({ resolve, reject });
-      }
+      },
     );
 
     return newPromise;
