@@ -1,6 +1,7 @@
 # Converts events to async iterable iterators(aka. async generators)
 
 将 `Eventlistener` 形式的 events 转换成 `AsyncGenerator`
+
 Take `Eventlistener` form events, and transform into `AsyncGenerator` which can be then consume by `for await of`
 
 ```ts
